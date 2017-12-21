@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import {JeopardyService } from './jeopardy.service';
 
 @Component({
@@ -10,6 +10,7 @@ export class AppComponent implements OnInit {
   title = 'app';
 
   questionInfo;
+  score = 0;
 
   constructor(private jeopardyService: JeopardyService){}
 
@@ -24,6 +25,21 @@ export class AppComponent implements OnInit {
 
   ngOnInit(){
     this.getDataFromService()
+  }
+
+  determineVerdict(guess) {
+    let answerCorrect:boolean = false;
+
+    if (guess == this.questionInfo.answer) {
+      answerCorrect = true;
+    }
+
+    if (answerCorrect) {
+      this.score += this.questionInfo.value;
+    }
+
+    this.getDataFromService();
+
   }
 
 }
