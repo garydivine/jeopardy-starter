@@ -1,15 +1,19 @@
-<!--The whole content below can be removed with the new code.-->
-<!-- dont error if questionInfo not available -->
-Question: {{questionInfo?.question}} 
+Pick a Category:
+<select [(ngModel)]="categoryId" (change)="getDataFromService()">
+    <option *ngFor="let category of categories" [value]="category.id">{{category?.title}}</option>
+</select>
 <br>
-Point Value: {{questionInfo?.value}}
-<br>
-Category: {{questionInfo?.category.title}}
-<br>
-Score: {{score}}
-<br>
-<app-guess (buttonClicked)="determineVerdict($event)"></app-guess>
-
+<div *ngIf="categoryId">
+    Question: {{questionInfo?.question}} 
+    <br>
+    Point Value: {{questionInfo?.value}}
+    <br>
+    Category: {{questionInfo?.category.title}}
+    <br>
+    Score: {{guesser.score}}
+    <br>
+    <app-guess #guesser (answerScored)="getDataFromService()" [questionInfo]="questionInfo"></app-guess>
+</div>
 
 
 

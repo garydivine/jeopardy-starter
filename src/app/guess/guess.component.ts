@@ -8,15 +8,27 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 export class GuessComponent implements OnInit {
 
   @Input() guess: String;
-  @Output() buttonClicked = new EventEmitter();
+  score: number = 0;
+  @Input() questionInfo;
+  @Output() answerScored = new EventEmitter();
 
   constructor() { }
 
   ngOnInit() {
   }
 
-  sendData() {
-    this.buttonClicked.emit(this.guess);
+  checkGuess() {
+    let answerCorrect:boolean = false;
+
+    if (this.guess.toLowerCase() == this.questionInfo.answer.toLowerCase()) {
+      answerCorrect = true;
+    }
+
+    if (answerCorrect) {
+      this.score += this.questionInfo.value;
+    }
+
+    this.answerScored.emit();
     this.guess = "";
   }
 

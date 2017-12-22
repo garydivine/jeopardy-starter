@@ -7,40 +7,36 @@ import {JeopardyService } from './jeopardy.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  title = 'app';
 
   questionInfo;
-  score = 0;
+  categories;
+  @Input() categoryId;
 
   constructor(private jeopardyService: JeopardyService){}
 
   getDataFromService(){
-    this.jeopardyService.getQuestionInfo()
+    this.jeopardyService.getQuestionInfo(this.categoryId)
       .subscribe(
         questionInfo => {
-          this.questionInfo = questionInfo[0];
+          this.questionInfo = questionInfo[Math.floor(Math.random() * (questionInfo.length))];
+          console.log(this.questionInfo.category.id);
           console.log(this.questionInfo.answer);
         }
       )  
   }
 
-  ngOnInit(){
-    this.getDataFromService()
+  getCategoriesFromService(){
+    this.jeopardyService.getCategories()
+      .subscribe(
+        categories => {
+          this.categories = categories;
+          console.log(this.categories);
+        }
+      )  
   }
 
-  determineVerdict(guess) {
-    let answerCorrect:boolean = false;
-
-    if (guess.toLowerCase() == this.questionInfo.answer.toLowerCase()) {
-      answerCorrect = true;
-    }
-
-    if (answerCorrect) {
-      this.score += this.questionInfo.value;
-    }
-
-    this.getDataFromService();
-
+  ngOnInit(){
+    this.getCategoriesFromService()
   }
 
 }
