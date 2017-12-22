@@ -20,7 +20,7 @@ export class AppComponent implements OnInit {
         questionInfo => {
           this.questionInfo = questionInfo[0];
         }
-      )
+      )  
   }
 
   ngOnInit(){
@@ -30,7 +30,7 @@ export class AppComponent implements OnInit {
   determineVerdict(guess) {
     let answerCorrect:boolean = false;
 
-    if (guess == this.questionInfo.answer) {
+    if (guess.toLowerCase() == this.questionInfo.answer.toLowerCase()) {
       answerCorrect = true;
     }
 
